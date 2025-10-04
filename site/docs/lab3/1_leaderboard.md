@@ -7,6 +7,13 @@ import Question from '@site/src/components/Question';
 
 We’ve reached the final stretch: a series of self-guided missions where you’ll put everything you’ve learned into practice. Each challenge is designed to test your skills, spark some creativity, and maybe even spark a little friendly competition. Ready to begin your first mission?
 
+## Catching Up
+
+The success of this final lab requires having working telemetry pipelines for metrics, logs, and traces. You can use these completed pipelines if you haven't fully finished lab 1 and lab 2.
+
+-  [lab_scrape_telemetry](https://raw.githubusercontent.com/grafana/alloy-workshop/refs/heads/main/finished_pipelines/lab_scrape_telemetry.alloy)
+-  [lab_receive_telemetry](https://raw.githubusercontent.com/grafana/alloy-workshop/refs/heads/main/finished_pipelines/lab_receive_telemetry.alloy)
+
 ## Find your Metal Moniker
 
 No mission is complete without a proper codename. Claim your Metal Moniker: a shiny nickname that will follow you through the challenges ahead (and maybe onto the leaderboard).
@@ -18,9 +25,9 @@ No mission is complete without a proper codename. Claim your Metal Moniker: a sh
 <Question id={'moniker'} title={'Jot down your Metal Moniker here in case you need it later.'}></Question>
 
 
-## Join the Leaderboard
+## Join the Leaderboard (optional)
 
-The leaderboard will track everyone’s progress across missions and stay on display for the rest of the workshop. It’s all in good fun—hop on if you’re up for bragging rights, or stay off the board if you’d rather fly under the radar. Either way, you’ll be able to complete every challenge.
+The leaderboard will track everyone’s progress across missions and be on display for the rest of the workshop. It’s all in good fun—hop on if you’re up for bragging rights, or stay off the board if you’d rather fly under the radar. Leaderboard or not, you'll still be able to complete the challenges.
 
 :::tip[Documentation Reference]
 
