@@ -1,0 +1,86 @@
+////////////////////
+//     Traces     //
+////////////////////
+
+otelcol.receiver.otlp "default" {
+	// Accept traces via HTTP and GRPC
+	http { }
+
+	grpc { }
+	// Output traces to the batch processor
+	output {
+		traces = [otelcol.processor.transform.default.input]
+	}
+}
+
+otelcol.processor.transform "default" {
+	error_mode = "ignore"
+
+	trace_statements {
+		context    = "resource"
+		statements = [
+			// Set "pod" attribute to value of "service.instance.id"
+			`set(attributes["pod"], attributes["service.instance.id"])`,
+		]
+	}
+
+	output {
+		// forward to the batch processor
+		traces = [otelcol.processor.batch.default.input]
+	}
+}
+
+otelcol.processor.batch "default" {
+	// Set a 2s timeout for batching
+	timeout             = "2s"
+	send_batch_size     = 8192
+	send_batch_max_size = 0
+
+	output {
+		// Output traces to the OTLP exporter
+		traces = [otelcol.exporter.otlp.grafanacloud.input]
+	}
+}
+
+otelcol.exporter.otlp "grafanacloud" {
+	client {
+		endpoint = convert.nonsensitive(remote.kubernetes.secret.creds.data["traces_url"]) + ":443"
+		auth     = otelcol.auth.basic.grafanacloud.handler
+	}
+}
+
+//////////////////////
+//     Profiles     //
+//////////////////////
+
+pyroscope.receive_http "receiver" {
+	http {
+		listen_port = 4040
+	}
+	forward_to = [pyroscope.write.grafana_cloud.receiver]
+}
+
+pyroscope.write "grafana_cloud" {
+	endpoint {
+		url = convert.nonsensitive(remote.kubernetes.secret.creds.data["profiles_url"])
+
+		basic_auth {
+			username = convert.nonsensitive(remote.kubernetes.secret.creds.data["profiles_user"])
+			password = remote.kubernetes.secret.creds.data["access_token"]
+		}
+	}
+}
+
+///////////////////////////
+//     Miscellaneous     //
+///////////////////////////
+
+otelcol.auth.basic "grafanacloud" {
+	username = convert.nonsensitive(remote.kubernetes.secret.creds.data["traces_user"])
+	password = remote.kubernetes.secret.creds.data["access_token"]
+}
+
+remote.kubernetes.secret "creds" {
+	name      = "grafana-cloud-credentials"
+	namespace = sys.env("NAMESPACE")
+}

@@ -1,0 +1,113 @@
+///////////////////////////////
+//     Service Discovery     //
+///////////////////////////////
+
+discovery.kubernetes "pods" {
+	role = "pod"
+
+	// Filter selected pods to "quickpizza" namespace
+	namespaces {
+		names = ["quickpizza"]
+	}
+}
+
+discovery.relabel "k8s_pods" {
+	targets = discovery.kubernetes.pods.targets
+
+	rule {
+		source_labels = ["__meta_kubernetes_namespace"]
+		action        = "replace"
+		target_label  = "namespace"
+	}
+
+	rule {
+		source_labels = ["namespace"]
+		target_label  = "service_namespace"
+	}
+
+	// Add pod name as the label: pod
+	rule {
+		source_labels = ["__meta_kubernetes_pod_name"]
+		target_label  = "pod"
+	}
+	// Add container name as the label: container
+	rule {
+		source_labels = ["__meta_kubernetes_pod_container_name"]
+		target_label  = "container"
+	}
+	// Use value of the pod label app.kubernetes.io/instance as the label: service_name
+	rule {
+		source_labels = ["__meta_kubernetes_pod_label_app_kubernetes_io_instance"]
+		target_label  = "service_name"
+	}
+}
+
+////////////////////////////////
+//     Prometheus Metrics     //
+////////////////////////////////
+
+prometheus.scrape "app" {
+	// Use the output of the relabled pods 
+	targets = discovery.relabel.k8s_pods.output
+	// Forward to Grafana Cloud Metrics
+	forward_to = [prometheus.relabel.app.receiver]
+	// Set scrape interval to 15s
+	scrape_interval = "15s"
+}
+
+prometheus.relabel "app" {
+	// forward to Grafana Cloud
+	forward_to = [prometheus.remote_write.grafana_cloud.receiver]
+
+	rule {
+		// specify the action to drop the metric
+		action = "drop"
+
+		source_labels = ["__name__"]
+		// specify a pattern to match the `go_info` metric
+		regex = "go_info"
+	}
+}
+
+prometheus.remote_write "grafana_cloud" {
+	endpoint {
+		url = convert.nonsensitive(remote.kubernetes.secret.creds.data["metrics_url"])
+
+		basic_auth {
+			username = convert.nonsensitive(remote.kubernetes.secret.creds.data["metrics_user"])
+			password = remote.kubernetes.secret.creds.data["access_token"]
+		}
+	}
+}
+
+/////////////////////////////////
+//     Kubernetes Pod Logs     //
+/////////////////////////////////
+
+// Kubernetes Pod Logs
+loki.source.kubernetes "pods" {
+	// Target the k8s pods
+	targets = discovery.relabel.k8s_pods.output
+	// Forward to Grafana Cloud Logs
+	forward_to = [loki.write.grafana_cloud.receiver]
+}
+
+loki.write "grafana_cloud" {
+	endpoint {
+		url = convert.nonsensitive(remote.kubernetes.secret.creds.data["logs_url"]) + "/loki/api/v1/push"
+
+		basic_auth {
+			username = convert.nonsensitive(remote.kubernetes.secret.creds.data["logs_user"])
+			password = remote.kubernetes.secret.creds.data["access_token"]
+		}
+	}
+}
+
+///////////////////////////
+//     Miscellaneous     //
+///////////////////////////
+
+remote.kubernetes.secret "creds" {
+	name      = "grafana-cloud-credentials"
+	namespace = sys.env("NAMESPACE")
+}
