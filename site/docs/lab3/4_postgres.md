@@ -9,7 +9,7 @@ Databases are full of hidden signals, and it’s your job to uncover them. In th
 
 QuickPizza is configured to run from a single Postgres database running in Kubernetes. It can be monitored via the connection string below:
 ```
-postgres://quickpizza:quickpizza@postgres:5432/quickpizza?sslmode=disable
+postgres://quickpizza:quickpizza@postgres.quickpizza:5432/quickpizza?sslmode=disable
 ```
 
 :::tip[Documentation Reference]
