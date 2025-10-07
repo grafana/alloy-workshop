@@ -32,7 +32,7 @@ The documentation for the [OpenTelemetry Collector span processor](https://grafa
 
             It happens to the best of us. Here is a pattern that will capture the ingredient from the URL:
             ```
-            rules = [`^GET \/api\/ingrediens\/(?P<ingredient>.+)$`]
+            rules = [`^GET \/api\/ingredients\/(?P<ingredient>.+)$`]
             ```
 
             Note that using `` `backticks` `` allows us to define string literals in Alloy. This avoids the backslashes in our regular expression from being interpreted by Alloy.
