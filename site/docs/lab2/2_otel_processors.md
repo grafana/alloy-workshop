@@ -90,7 +90,7 @@ These Grafana Alloy docs may prove useful:
     <details>
         <summary>See the solution</summary>
         ```
-          forward_to = [otelcol.processor.transform.default.input]
+          traces = [otelcol.processor.transform.default.input]
         ```
     </details>
 
@@ -112,7 +112,7 @@ With metrics flowing, let's see what Alloy's live debugging shows.
 
 1.  **Verify** you see the boxes for the newly added Prometheus components.
 
-1.  **Click the box** for the `prometheus.transform` component.
+1.  **Click the box** for the `otelcol.processor.transform` component.
 
 1.  Click the **Live Debugging** button near the top of the page.
 
