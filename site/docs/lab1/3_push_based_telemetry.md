@@ -86,9 +86,9 @@ Now that we have profiles being ingested, let's check the Alloy UI to see what i
 
 1.  Click the blue **Graph** button just below the name of the pipeline on the details page.
 
-1.  **Verify** you see blocks for the `discovery.kubernetes` and `discovery.relabel` components. (You can ignore the `remote.kubernetes.secret` block as we haven't used it yet)
+1.  **Verify** you see blocks for the `otelcol.receiver.otlp`, `otelcol.processor.batch`, and `otelcol.exporter.otlp` components.
 
-    ![Alloy UI Graph](./img/discovery_graph.png)
+    ![Alloy UI Graph](./img/traces_graph.png)
 
 1.  **Click the block** for the `discovery.relabel` component.
 
