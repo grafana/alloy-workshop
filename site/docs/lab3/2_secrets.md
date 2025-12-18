@@ -9,7 +9,7 @@ The QuickPizza security team has received a report that the **inventory-sync** s
 
 ## Masking Secrets
 
-The inventory service logs via standard output to Kubernetes like the other QuickPizza services. Its logs are ingested into Grafana Cloud using the pipelune we created earlier, meaning we can manipulate them within that pipeline.
+The inventory service logs via standard output to Kubernetes like the other QuickPizza services. Its logs are ingested into Grafana Cloud using the pipeline we created earlier, meaning we can manipulate them within that pipeline.
 
 :::tip[Documentation Reference]
 
