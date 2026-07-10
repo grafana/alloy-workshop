@@ -25,7 +25,7 @@ These Grafana Alloy docs may prove useful as you configure service discovery:
 
     Click the **Remote Configuration** tab to list the pipelines we have configured.
 
-1.  Click the **Edit** (pencil icon) button next to the **lab_scrape_telemetry** pipeline to open the partially built pipeline we'll be modifying.
+1.  Click on **lab_scrape_telemetry** pipeline to open the partially built pipeline, copy the pipeline's code and create a new pipeline named **lab_scrape_telemetry_copy**. Paste the content in **Custom configuration**, we will now modify it.
 
 1.  In the `discovery.kubernetes` component, **add a namespace selector** to return only pods in the `quickpizza` namespace below the `TODO` comment.
     <details>
@@ -74,9 +74,9 @@ These Grafana Alloy docs may prove useful as you configure service discovery:
 
 1.  Click the **Next** button to move to the next step.
 
-1.  No changes are needed to the assigned attributes, so click the **Save** button.
+1.  Add an attribute **cluster = workshop** and click the **Save** button.
 
-1.  From the **Remote configuration** screen, click the toggle icon under **Active** for the **lab_scrape_telemetry** pipeline.
+1.  From the **Remote configuration** screen, click the toggle icon under **Active** for the **lab_scrape_telemetry_copy** pipeline.
 
 1.  In the modal that pops up, click the **Activate** button.
 
@@ -86,7 +86,7 @@ Now that we have service discovery configured for our Kubernetes cluster, let's 
 
 1.  Open the browser tab for the Grafana Alloy UI and click **Remote Configuration** in the top navigation.
 
-1.  Click the **View** button next to the **lab_scrape_telemetry.default** pipeline.
+1.  Click the **View** button next to the **lab_scrape_telemetry_copy.default** pipeline.
 
 1.  Click the blue **Graph** button just below the name of the pipeline on the details page.
 
@@ -115,7 +115,7 @@ These Grafana Alloy docs may prove useful as you scrape metrics:
 
 1.  Click the **Remote Configuration** tab to list the pipelines we have configured.
 
-1.  Click the **Edit** (pencil icon) button next to the **lab_scrape_telemetry** pipeline to open the partially built pipeline we'll be modifying.
+1.  Click the **Edit** (pencil icon) button next to the **lab_scrape_telemetry_copy** pipeline to open the partially built pipeline we'll be modifying.
 
 1.  **Paste the contents below** under the **Prometheus Metrics** section in the pipeline.
 
@@ -178,7 +178,7 @@ With metrics flowing, let's see what Alloy's live debugging shows.
 
 1.  Open the browser tab for the Grafana Alloy UI and click **Remote Configuration** in the top navigation.
 
-1.  Click the **View** button next to the **lab_scrape_telemetry.default** pipeline.
+1.  Click the **View** button next to the **lab_scrape_telemetry_copy.default** pipeline.
 
 1.  Click the blue **Graph** button just below the name of the pipeline on the details page.
 
@@ -258,7 +258,7 @@ With logs being collected now, let's confirm we're ingesting them.
 
 1.  Open the browser tab for the Grafana Alloy UI and click **Remote Configuration** in the top navigation.
 
-1.  Click the **View** button next to the **lab_scrape_telemetry.default** pipeline.
+1.  Click the **View** button next to the **lab_scrape_telemetry_copy.default** pipeline.
 
 1.  Click the blue **Graph** button just below the name of the pipeline on the details page.
 
