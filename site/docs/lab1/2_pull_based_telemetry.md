@@ -94,7 +94,11 @@ Now that we have service discovery configured for our Kubernetes cluster, let's 
 
     ![Alloy UI Graph](./img/discovery_graph.png)
 
-1.  **Click the box** for the `discovery.relabel` component.
+1.  The graph view doesn't have a left-hand navigation, so click **Remote Configuration** in the top navigation to go back.
+
+1.  Click the **View** button next to the **lab_scrape_telemetry.default** pipeline again.
+
+1.  Click the `discovery.relabel` component in the list of components.
 
 1.  Click the **Exports** link in the left navigation.
 
